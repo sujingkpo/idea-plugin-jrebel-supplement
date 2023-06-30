@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="jrebel_fast_json:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/jrebel_fast_json_jar</output-path>
+    <root id="archive" name="jrebel_fast_json.jar">
+      <element id="module-output" name="jrebel_fast_json.main" />
+      <element id="library" level="project" name="libs" />
+    </root>
+  </artifact>
+</component>
