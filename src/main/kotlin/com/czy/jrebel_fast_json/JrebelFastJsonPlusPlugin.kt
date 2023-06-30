@@ -19,8 +19,7 @@ class JrebelFastJsonPlusPlugin : JavaProgramPatcher() {
         stringBuilder.append("Vm Params:\n")
         var programArgs = args
         val var5 = args.size
-        var var6: Int
-        var6 = 0
+        var var6 = 0
         while (var6 < var5) {
             val arg = programArgs[var6]
             stringBuilder.append(arg).append("\n")
@@ -69,7 +68,7 @@ class JrebelFastJsonPlusPlugin : JavaProgramPatcher() {
     }
 
     private val currentPlugin: IdeaPluginDescriptor?
-        private get() = PluginManagerCore.getPlugin(PluginId.getId("com.czy.jrebel_fast_json"))
+        get() = PluginManagerCore.getPlugin(PluginId.getId("jrebel_fast_json"))
 
     private fun hasJRebelArgs(javaParameters: JavaParameters): Boolean {
         val args = javaParameters.vmParametersList.array
@@ -85,11 +84,10 @@ class JrebelFastJsonPlusPlugin : JavaProgramPatcher() {
     }
 
     private val isJRebelRunner: Boolean
-        private get() {
+        get() {
             val maxStackDeep = 10
             val stackTrace = Thread.currentThread().stackTrace
-            var stackFrameIndex = 0
-            for (element in stackTrace) {
+            for ((stackFrameIndex, element) in stackTrace.withIndex()) {
                 if (stackFrameIndex > maxStackDeep) {
                     return false
                 }
@@ -97,7 +95,6 @@ class JrebelFastJsonPlusPlugin : JavaProgramPatcher() {
                 if ("com.zeroturnaround.javarebel.idea.plugin.runner.JRebelRunner" == clzName || "com.zeroturnaround.javarebel.idea.plugin.runner.JRebelDebugRunner" == clzName) {
                     return true
                 }
-                ++stackFrameIndex
             }
             return false
         }
@@ -120,7 +117,7 @@ class JrebelFastJsonPlusPlugin : JavaProgramPatcher() {
     }
 
     private val jrebelMpFileName: String
-        private get() = String.format("%s-%s%s", "jr-fastjson", "1.0.5", ".jar")
+        get() = String.format("%s-%s%s", "jrebel-fastjson-plugin", "1.0.5", ".jar")
 
     companion object {
         private val JREBEL_NATIVE_AGENT_PATTER = Pattern.compile(".*(libjrebel|jrebel32\\.dll|jrebel64\\.dll).*")

@@ -5,4 +5,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "jrebel_fast_json"
+rootProject.name = "ideal-plugin-jrebel-fastjson"
