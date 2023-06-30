@@ -68,7 +68,7 @@ class JrebelFastJsonPlusPlugin : JavaProgramPatcher() {
     }
 
     private val currentPlugin: IdeaPluginDescriptor?
-        get() = PluginManagerCore.getPlugin(PluginId.getId("jrebel_fast_json"))
+        get() = PluginManagerCore.getPlugin(PluginId.getId("idea-plugin-jrebel-fastjson"))
 
     private fun hasJRebelArgs(javaParameters: JavaParameters): Boolean {
         val args = javaParameters.vmParametersList.array

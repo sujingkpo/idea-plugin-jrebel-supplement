@@ -17,7 +17,11 @@
     <p>For fastjson, it does not support jrebel hot overloading support</p>
     <p>
         对于fastjson不支持jrebel热重载, 插件通过禁用 AsmEnable 来解决, 并且热重载时重新创建Serializer和Deserializer
-    </p> ]]></description>
+    </p>
+    <p>
+        插件参考: jrebel-mybatisplus-extension
+    </p>
+]]></description>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
