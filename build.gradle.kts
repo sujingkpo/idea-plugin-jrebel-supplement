@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.czy"
-version = "1.0.2-SNAPSHOT"
+version = "0.0.1"
 
 repositories {
 
