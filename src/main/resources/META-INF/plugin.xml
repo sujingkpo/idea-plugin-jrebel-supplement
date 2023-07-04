@@ -5,7 +5,7 @@
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>Jrebel-Fastjson-Extension</name>
+    <name>JRebel-Fastjson-Extension</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="768508825@qq.com" url="https://github.com/sujingkpo">sujingkpo</vendor>
@@ -17,6 +17,9 @@
     <p>For fastjson, it does not support jrebel hot overloading. The plugin solves this by disabling AsmEnable and recreating Serializers and Deserializers during hot overloading</p>
     <p>
         对于fastjson不支持jrebel热重载, 插件通过禁用 AsmEnable 来解决, 并且热重载时重新创建Serializer和Deserializer
+    </p>
+    <p>
+        增加对mybatisplus tableInfoCache的缓存清除
     </p>
     <p>
         插件参考: jrebel-mybatisplus-extension

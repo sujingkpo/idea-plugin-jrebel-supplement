@@ -68,7 +68,7 @@ class JrebelFastJsonPlusPlugin : JavaProgramPatcher() {
     }
 
     private val currentPlugin: IdeaPluginDescriptor?
-        get() = PluginManagerCore.getPlugin(PluginId.getId("idea-plugin-jrebel-fastjson"))
+        get() = PluginManagerCore.getPlugin(PluginId.getId("jrebel-fastjson-extension"))
 
     private fun hasJRebelArgs(javaParameters: JavaParameters): Boolean {
         val args = javaParameters.vmParametersList.array
@@ -117,7 +117,7 @@ class JrebelFastJsonPlusPlugin : JavaProgramPatcher() {
     }
 
     private val jrebelMpFileName: String
-        get() = String.format("%s-%s%s", "jrebel-fastjson-plugin", "1.0.5", ".jar")
+        get() = String.format("%s-%s%s", "jrebel-fastjson-plugin", "1.0.6", ".jar")
 
     companion object {
         private val JREBEL_NATIVE_AGENT_PATTER = Pattern.compile(".*(libjrebel|jrebel32\\.dll|jrebel64\\.dll).*")
