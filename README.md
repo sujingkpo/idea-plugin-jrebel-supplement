@@ -1,4 +1,4 @@
-# ideal-plugin-jrebel-fastjson
+# idea-plugin-jrebel-supplement
 
 参考
   https://github.com/SweetInk/jrebel-mybatisplus-idea-plugin

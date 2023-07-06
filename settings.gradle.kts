@@ -5,4 +5,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "idea-plugin-jrebel-fastjson"
+rootProject.name = "idea-plugin-jrebel-supplement"
