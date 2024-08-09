@@ -17,10 +17,13 @@
     <h1>jrebel-supplement-extension</h1>
     <p>For fastjson, it does not support jrebel hot overloading. The plugin solves this by disabling AsmEnable and recreating Serializers and Deserializers during hot overloading</p>
     <p>
-        1. 支持fastjson的热重载。插件通过禁用 AsmEnable 来解决, 并且热重载时重新创建Serializer和Deserializer
+        1. 支持fastjson的热重载。插件通过禁用 AsmEnable 来解决, 并且热重载时重新创建Serializer和Deserializer。
     </p>
     <p>
-        2. 支持MybatisPlus的tableInfoCache，MappedStatement的热重载
+        2. 支持MybatisPlus的tableInfoCache，MappedStatement的热重载。
+    </p>
+    <p>
+        3. 支持fastjson2的热重载。通过设置 fastjson2.creator=reflect 实现禁用Asm。
     </p>
     <p>
         插件参考: jrebel-mybatisplus-extension<a href="https://plugins.jetbrains.com/plugin/12682-jrebel-mybatisplus-extension">https://plugins.jetbrains.com/plugin/12682-jrebel-mybatisplus-extension</a>
@@ -30,6 +33,9 @@
     <change-notes>
         <![CDATA[
             <ul>
+                <li><b>0.0.6</b> 支持fastjson2的热重载</li>
+                <li><b>0.0.5</b> 修改支持的IDE版本(2021版本自行验证,2024已支持)</li>
+                <li><b>0.0.4</b> 修复bug</li>
                 <li><b>0.0.3</b> 支持MybatisPlus的tableInfoCache，MappedStatement的热重载</li>
                 <li><b>0.0.1</b> 支持fastjson的热重载</li>
             </ul>

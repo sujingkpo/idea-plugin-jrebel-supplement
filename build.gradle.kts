@@ -1,11 +1,11 @@
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.8.21"
-    id("org.jetbrains.intellij") version "1.14.2"
+    id("org.jetbrains.intellij") version "1.17.4"
 }
 
 group = "com.czy"
-version = "0.0.3"
+version = "0.0.6"
 
 repositories {
 
@@ -32,8 +32,8 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("222")
-        untilBuild.set("233.*")
+        sinceBuild.set("211")
+        untilBuild.set("244.*")
     }
 
     signPlugin {
