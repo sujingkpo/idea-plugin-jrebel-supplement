@@ -33,6 +33,7 @@
     <change-notes>
         <![CDATA[
             <ul>
+                <li><b>0.0.6.1</b> 修复一处报错</li>
                 <li><b>0.0.6</b> 支持fastjson2的热重载</li>
                 <li><b>0.0.5</b> 修改支持的IDE版本(2021版本自行验证,2024已支持)</li>
                 <li><b>0.0.4</b> 修复bug</li>

@@ -117,7 +117,7 @@ class JrebelSupplementPatcher : JavaProgramPatcher() {
     }
 
     private val jrebelMpFileName: String
-        get() = String.format("%s-%s%s", "jrebel-supplement-plugin", "1.0.8", ".jar")
+        get() = String.format("%s-%s%s", "jrebel-supplement-plugin", "1.0.9", ".jar")
 
     companion object {
         private val JREBEL_NATIVE_AGENT_PATTER = Pattern.compile(".*(libjrebel|jrebel32\\.dll|jrebel64\\.dll).*")
