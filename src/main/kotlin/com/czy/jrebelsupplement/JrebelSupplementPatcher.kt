@@ -1,3 +1,11 @@
+/**
+ * @description JRebel 运行/调试配置的动态注入 Patcher：
+ *              当检测到 JRebel 启动时，向 VM 参数 rebel.plugins 追加本插件的扩展 jar（jrebel-supplement-plugin）
+ * @author sujingkpo
+ * @date 2026-08-07
+ * @modify 2026-08-07 czy 修复 IDEA 2026.x 移除 commons-lang(org.apache.commons.lang) 导致的 NoClassDefFoundError：
+ *         StringUtils.isEmpty 改为 Kotlin 原生 isNullOrEmpty，并移除该 import
+ */
 package com.czy.jrebelsupplement
 
 import com.intellij.execution.Executor
@@ -9,7 +17,6 @@ import com.intellij.execution.runners.JavaProgramPatcher
 import com.intellij.ide.plugins.IdeaPluginDescriptor
 import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.openapi.extensions.PluginId
-import org.apache.commons.lang.StringUtils
 import java.io.File
 import java.util.regex.Pattern
 
@@ -58,11 +65,13 @@ class JrebelSupplementPatcher : JavaProgramPatcher() {
             val pluginPath = currentPlugin.pluginPath.toAbsolutePath().toString()
             val jrebelMpPlugin = pluginPath + File.separator + "lib" + File.separator + jrebelMpFileName
             var plugins = javaParameters.vmParametersList.getPropertyValue("rebel.plugins")
-            plugins = if (!StringUtils.isEmpty(plugins)) {
+            // IDEA 2026.x 已移除 commons-lang 2.x，改用 Kotlin 原生判空，避免 NoClassDefFoundError
+            plugins = if (!plugins.isNullOrEmpty()) {
                 "$plugins,$jrebelMpPlugin"
             } else {
                 jrebelMpPlugin
             }
+
             javaParameters.vmParametersList.addProperty("rebel.plugins", plugins)
         }
     }

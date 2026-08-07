@@ -1,6 +1,9 @@
 .gradle
 build/
+# Gradle wrapper 必须入库：IPGP 2.x 要求 Gradle 9.0+，wrapper 缺失会导致克隆副本只能用旧版 Gradle 构建失败
+!gradle/wrapper/
 !gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
 !**/src/main/**/build/
 !**/src/test/**/build/
 
@@ -42,4 +45,8 @@ bin/
 .DS_Store
 .idea
 .run
-gradle
+# gradle 目录仅保留 wrapper 供入库（见上方 !gradle/wrapper/ 白名单），此处不再整体忽略
+.reasonix
+.kotlin
+.gradle
+.intellijPlatform
