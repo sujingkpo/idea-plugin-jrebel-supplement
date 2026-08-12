@@ -54,7 +54,7 @@ tasks {
 
     patchPluginXml {
         // 最低支持 2022.2(222) ~ 最高 2026.2(262)；编译平台仍为 2026.2 SDK（仅改声明，不重下依赖）
-        sinceBuild.set("222")
+        sinceBuild.set("252")
         // IDEA 2026.2 对应 build 号 262.x，此前 244.* 会导致插件在 2026.2 上被判定不兼容而无法加载
         untilBuild.set("262.*")
     }
