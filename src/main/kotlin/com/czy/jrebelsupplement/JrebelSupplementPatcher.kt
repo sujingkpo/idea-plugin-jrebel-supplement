@@ -5,6 +5,8 @@
  * @date 2026-08-07
  * @modify 2026-08-07 czy 修复 IDEA 2026.x 移除 commons-lang(org.apache.commons.lang) 导致的 NoClassDefFoundError：
  *         StringUtils.isEmpty 改为 Kotlin 原生 isNullOrEmpty，并移除该 import
+ * @modify 2026-08-08 czy 移除内部 API PluginManagerCore.getPlugin(PluginId)（内部 API 不得在平台之外使用），
+ *         改用公开 API PluginPathManager.getPluginResource(Class, String) 定位插件 lib/ 下的扩展 jar
  */
 package com.czy.jrebelsupplement
 
@@ -14,9 +16,7 @@ import com.intellij.execution.configurations.RunProfile
 import com.intellij.execution.executors.DefaultDebugExecutor
 import com.intellij.execution.executors.DefaultRunExecutor
 import com.intellij.execution.runners.JavaProgramPatcher
-import com.intellij.ide.plugins.IdeaPluginDescriptor
-import com.intellij.ide.plugins.PluginManagerCore
-import com.intellij.openapi.extensions.PluginId
+import com.intellij.openapi.application.PluginPathManager
 import java.io.File
 import java.util.regex.Pattern
 
@@ -60,24 +60,21 @@ class JrebelSupplementPatcher : JavaProgramPatcher() {
     }
 
     private fun patch(javaParameters: JavaParameters) {
-        val currentPlugin = currentPlugin
-        if (null != currentPlugin) {
-            val pluginPath = currentPlugin.pluginPath.toAbsolutePath().toString()
-            val jrebelMpPlugin = pluginPath + File.separator + "lib" + File.separator + jrebelMpFileName
-            var plugins = javaParameters.vmParametersList.getPropertyValue("rebel.plugins")
-            // IDEA 2026.x 已移除 commons-lang 2.x，改用 Kotlin 原生判空，避免 NoClassDefFoundError
-            plugins = if (!plugins.isNullOrEmpty()) {
-                "$plugins,$jrebelMpPlugin"
-            } else {
-                jrebelMpPlugin
-            }
-
-            javaParameters.vmParametersList.addProperty("rebel.plugins", plugins)
+        // 公开 API：按当前类所在插件解析插件根，定位 lib/ 下 JRebel 扩展 jar；资源定位失败则跳过注入
+        val jrebelMpPlugin = PluginPathManager
+            .getPluginResource(javaClass, "lib" + File.separator + jrebelMpFileName)
+            ?.let { File(it.toURI()).absolutePath }
+            ?: return
+        var plugins = javaParameters.vmParametersList.getPropertyValue("rebel.plugins")
+        // IDEA 2026.x 已移除 commons-lang 2.x，改用 Kotlin 原生判空，避免 NoClassDefFoundError
+        plugins = if (!plugins.isNullOrEmpty()) {
+            "$plugins,$jrebelMpPlugin"
+        } else {
+            jrebelMpPlugin
         }
-    }
 
-    private val currentPlugin: IdeaPluginDescriptor?
-        get() = PluginManagerCore.getPlugin(PluginId.getId("jrebel-supplement-extension"))
+        javaParameters.vmParametersList.addProperty("rebel.plugins", plugins)
+    }
 
     private fun hasJRebelArgs(javaParameters: JavaParameters): Boolean {
         val args = javaParameters.vmParametersList.array
@@ -128,7 +125,6 @@ class JrebelSupplementPatcher : JavaProgramPatcher() {
     private val jrebelMpFileName: String
         get() = String.format("%s-%s%s", "jrebel-supplement-plugin", "1.0.9", ".jar")
 
-    companion object {
-        private val JREBEL_NATIVE_AGENT_PATTER = Pattern.compile(".*(libjrebel|jrebel32\\.dll|jrebel64\\.dll).*")
-    }
 }
+
+private val JREBEL_NATIVE_AGENT_PATTER = Pattern.compile(".*(libjrebel|jrebel32\\.dll|jrebel64\\.dll).*")
