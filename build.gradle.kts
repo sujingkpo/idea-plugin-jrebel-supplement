@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "com.czy"
-version = "0.0.6.3"
+version = "0.0.6.4"
 
 // IPGP 2.x 默认按平台 JBR（2026.2 = Java 25）配置编译 toolchain，本机无 JDK 25。
 // 为兼容 2022.2.5（JBR 11），编译为 Java 11 字节码（2022.3+ 的 JBR 17、2026.x 的 JBR 25 均向下兼容 11）
@@ -28,9 +28,24 @@ repositories {
 
 dependencies {
     // 2.x 将平台与插件依赖迁移到 dependencies 块内（替代 1.x 的 intellij { } DSL）
-    // 2026.2 起 IDEA Community(IC) 不再单独发布，统一使用 intellijIdea
+    // 优先用本机已安装的 IDEA，避免再下 1.4GB 的 idea-*-aarch64.dmg。
+    // 覆盖路径：-PintellijPlatform.localPath=/path/to/IntelliJ IDEA.app
+    // 本机没有 IDEA 时回落到 2026.2.0.1 安装包（2026.2 起 IC 不再单独发布，统一用 intellijIdea）
     intellijPlatform {
-        intellijIdea("2026.2.0.1")
+        val localIdePath = (findProperty("intellijPlatform.localPath") as String?)
+            ?.trim()
+            ?.takeIf { it.isNotEmpty() && file(it).exists() }
+            ?: listOf(
+                file("${System.getProperty("user.home")}/Applications/IntelliJ IDEA.app"),
+                file("/Applications/IntelliJ IDEA.app"),
+            ).firstOrNull { it.isDirectory }?.absolutePath
+
+        if (localIdePath != null) {
+            logger.lifecycle("IntelliJ Platform: using local IDE at $localIdePath")
+            local(localIdePath)
+        } else {
+            intellijIdea("2026.2.0.1")
+        }
         bundledPlugin("com.intellij.java")
     }
     implementation(fileTree("libs") {
@@ -53,10 +68,11 @@ tasks {
     }
 
     patchPluginXml {
-        // 最低支持 2022.2(222) ~ 最高 2026.2(262)；编译平台仍为 2026.2 SDK（仅改声明，不重下依赖）
+        // 最低支持 2022.2(222)；不设上限，避免每次 IDEA 大版本（262→263→271…）都因 until-build 被判定不兼容
         sinceBuild.set("222")
-        // IDEA 2026.2 对应 build 号 262.x，此前 244.* 会导致插件在 2026.2 上被判定不兼容而无法加载
-        untilBuild.set("262.*")
+        // 不能写成 999.* 这类虚构号（Marketplace/Verifier 会拒）；provider { null } 才会真正去掉 until-build
+        // 直接 untilBuild.set(null) 会回落到 Gradle/IPGP 默认值（当前编译平台 262.*），等于没放开
+        untilBuild.set(provider { null })
     }
 
     signPlugin {
