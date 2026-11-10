@@ -68,8 +68,8 @@ tasks {
     }
 
     patchPluginXml {
-        // 最低支持 2022.2(222)；不设上限，避免每次 IDEA 大版本（262→263→271…）都因 until-build 被判定不兼容
-        sinceBuild.set("222")
+        // 最低支持 2025.2(252)；不设上限，避免每次 IDEA 大版本（262→263→271…）都因 until-build 被判定不兼容
+        sinceBuild.set("252")
         // 不能写成 999.* 这类虚构号（Marketplace/Verifier 会拒）；provider { null } 才会真正去掉 until-build
         // 直接 untilBuild.set(null) 会回落到 Gradle/IPGP 默认值（当前编译平台 262.*），等于没放开
         untilBuild.set(provider { null })
